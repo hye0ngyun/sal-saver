@@ -27,10 +27,36 @@
         - ./deduction.py 
         - ./modified_simple_tax_amount_table.xls
     </py-env>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <py-script src="./main.py"> </py-script>
+    <div class="bl_alert fixed-top">
+      <div
+        class="alert alert-info fade fixed-top"
+        id="dependents-alert1"
+        role="alert"
+      >
+        기본공제대상자(본인 포함)에 해당하는 부양가족의 수를 1 이상 입력해야
+        합니다. 단, 연간 소득 금액이 100만원을 초과하는 경우에는 해당되지
+        않습니다.
+      </div>
+      <div
+        class="alert alert-info fade fixed-top"
+        id="dependents-alert2"
+        role="alert"
+      >
+        부양가족수 12명 이상은 11명과 동일하게 계산되므로 11까지만 입력이
+        가능합니다.
+      </div>
+      <div
+        class="alert alert-info fade fixed-top"
+        id="taxfree-alert1"
+        role="alert"
+      >
+        비과세액이 <span id="taxfree-alert1-tooltip">연봉</span>보다 많습니다.
+      </div>
+    </div>
     <main class="container my-5">
       <div class="row py-5 p-3 border">
         <!-- 옵션 -->
@@ -55,7 +81,6 @@
                 <label class="btn btn-outline-primary" for="sal-year"
                   >연봉</label
                 >
-
                 <input
                   type="radio"
                   class="btn-check"
