@@ -19,10 +19,27 @@ def get_income_tax(salary, dependents):
   dependents: 부양가족
   """
   df = pd.read_excel('./modified_simple_tax_amount_table.xls')
-  base_salary = int(salary / 1000)
-  working_tax = df[df['미만'] > base_salary].iloc[0][dependents]
+  base_salary = int(salary / 1000) # 엑셀 시트 단위가 천으로 돼있기때문
+  # 월급이 10,000천원 초과하는 경우 엑셀시트에 명시된 계산으로 소득세 계산
+  income_tax = 0
+  if 10000 < base_salary <= 14000:
+    income_tax = df.iloc[-1][dependents] + ((base_salary - 10000) * 1000) * (98/100) * (35/100) # 10,000천원 행, 부양가족수 열에 해당하는 소득세 + 10,000천원을 초과하는 금액에 98%를 곱한 금액의 35퍼센트 상당액
+    #  ((base_salary - 10000) * 1000) ==> 엑셀 시트 단위 변환을 위해 1000 곱해서 초과액 구하기
+  elif 14000 < base_salary <= 28000:
+    income_tax = df.iloc[-1][dependents] + 1372000 + ((base_salary - 14000) * 1000) * (98/100) * (38/100)
+  elif 28000 < base_salary <= 30000:
+    income_tax = df.iloc[-1][dependents] + 6585600 + ((base_salary - 28000) * 1000) * (98/100) * (40/100)
+  elif 30000 < base_salary <= 45000:
+    income_tax = df.iloc[-1][dependents] + 7369600 + ((base_salary - 30000) * 1000) * (40/100)
+  elif 45000 < base_salary <= 87000:
+    income_tax = df.iloc[-1][dependents] + 13369600 + ((base_salary - 45000) * 1000) * (42/100)
+  elif 87000 < base_salary:
+    income_tax = df.iloc[-1][dependents] + 31009600 + ((base_salary - 87000) * 1000) * (45/100)
+  else:
+    income_tax = df[df['미만'] > base_salary].iloc[0][dependents] # df[df['미만'] > base_salary].iloc[0] - base_salary에 해당하는 행 선택, [dependents] - 부양가족수에 해당하는 열 선택 ==> 월급에 해당하는 행에서 부양가족수에 해당하는 열의 소득세
+  
   # 소득세 반환
-  return working_tax
+  return income_tax
 
 def get_deduction(salary, dependents, taxfree, get_list=True):
   salary = int(salary)
@@ -81,6 +98,13 @@ def get_deduction(salary, dependents, taxfree, get_list=True):
 
 
 if __name__ == '__main__':
+  # import pandas as pd
+  # df = pd.read_excel('./modified_simple_tax_amount_table.xls')
+  # base_salary = 200000
+  # dependents = 1
+  # income_tax = df.iloc[-1][dependents] + 1372000 + (base_salary - 14000) * (98/100) * (38/100)
+  # print(income_tax)
+  
   money = '2,000,000'
 
   money = int(money.replace(',', ''))
