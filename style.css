@@ -1,6 +1,15 @@
 .text-right {
   text-align: right !important;
 }
-.fade-in {
-  
+.tooltip-inner {
+  max-width: 450px;
+  text-align: start;
+  padding: 15px;
+  font-size: 0.8rem;
+}
+.bl_result_table > .row:not(.bl_result_table > .row:last-child) {
+  border-bottom: 0.5px solid #b5b9bd;
+}
+.bl_result_table > .row {
+  padding: 7px 0;
 }

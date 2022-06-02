@@ -1,6 +1,13 @@
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+// 툴팁기능 활성화를 위해
+const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+
 $(() => {
   // 연봉/월급 입력시 값을 정규식으로 처리하여 숫자만 입력받고, 100의 자리마다 컴마 추가
   $("#salary, #taxfree").on("input", (e) => {

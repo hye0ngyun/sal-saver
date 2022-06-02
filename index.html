@@ -4,20 +4,29 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>SalSaver</title>
+    <!-- pyscript cdn -->
     <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <!-- bootstrap css cdn -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <!-- bootstrap js plugin cdn -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+    <!-- bootstrap icon cdn -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
+    />
+    <!-- jquery cdn -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- prettier-ignore -->
     <py-env>
@@ -38,8 +47,7 @@
         role="alert"
       >
         기본공제대상자(본인 포함)에 해당하는 부양가족의 수를 1 이상 입력해야
-        합니다. 단, 연간 소득 금액이 100만원을 초과하는 경우에는 해당되지
-        않습니다.
+        합니다.
       </div>
       <div
         class="alert alert-info fade fixed-top"
@@ -125,7 +133,7 @@
             </div>
             <div class="col mb-2">
               <div class="mb-2 sal-title">연봉</div>
-              <div class="row align-content-center">
+              <div class="d-flex gap-2 align-content-center">
                 <input
                   type="text"
                   class="form-control col text-right"
@@ -139,8 +147,17 @@
           <div class="row">
             <div class="mb-2">선택입력</div>
             <div class="col-6 mb-2">
-              <div class="mb-2">부양 가족 수(본인포함)</div>
-              <div class="row">
+              <div class="mb-2">
+                <span>부양 가족 수(본인포함)</span>
+                <i
+                  class="bi bi-question-circle-fill"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="기본공제대상자(본인 포함)에 해당하는 부양가족의 수를 1 이상 입력해야 합니다. <br>단, 연간 소득 금액이 100만원을 초과하는 경우에는 해당되지 않습니다."
+                ></i>
+              </div>
+              <div class="d-flex gap-2">
                 <input
                   type="text"
                   class="form-control col text-right"
@@ -152,8 +169,19 @@
               </div>
             </div>
             <div class="col-6 mb-3">
-              <div class="mb-2">비과세액</div>
-              <div class="row">
+              <div class="mb-2">
+                <span>비과세액</span>
+                <i
+                  class="bi bi-question-circle-fill"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="
+                급여액 증에 세금공제를 하지 않은 금액으로, 본 계산기는 식대 10만원으로 설정되어 있습니다.<br>비과세액을 알고 계신 경우 직접 입력 가능합니다.<br>
+                실비변상적인 급여, 비과세되는 식사대, 출산·보육수당, 기타 비과세 되는 소득, 국외근로소득, 생산직 근로자 등의 야간근로수당 외국인 근로자에 대한 과세특례 등이 해당됩니다."
+                ></i>
+              </div>
+              <div class="d-flex gap-2">
                 <input
                   type="text"
                   class="form-control col text-right"
@@ -163,10 +191,10 @@
                 <span class="col-3 d-flex align-items-center">원</span>
               </div>
             </div>
-            <div class="col row">
+            <div class="col">
               <input
                 type="button"
-                class="btn btn-primary btn-lg btn-block"
+                class="btn btn-primary btn-lg btn-block w-full"
                 value="계산하기"
                 pys-onClick="calculate"
                 id="submit"
@@ -176,59 +204,128 @@
         </div>
         <!-- 결과 -->
         <div class="col-lg-6 mb-3">
-          <div class="h3 mb-1">예상 실수령액</div>
-          <div class="h4 mb-2">
+          <div class="fw-bold mb-1">
+            <span>예상 실수령액</span>
+            <i
+              class="bi bi-question-circle-fill"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              data-bs-html="true"
+              title="월 급여액에서 공제액 합계를 제외한 금액입니다."
+            ></i>
+          </div>
+          <div class="h3 fw-bold mb-2 d-flex">
             <span id="result">0</span>
             <span>원</span>
           </div>
-          <div class="mb-1">한 달 기준 공제액</div>
-          <div class="row">
-            <div class="col-6">국민연금</div>
-            <div class="col-6 d-flex justify-content-end">
-              <span id="국민연금">0</span>
-              <span>원</span>
+          <div class="bl_result_table">
+            <div class="row">
+              <div class="col">한 달 기준 공제액</div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-6">건강보험</div>
-            <div class="col-6 d-flex justify-content-end">
-              <span id="건강보험">0</span>
-              <span>원</span>
+            <div class="row">
+              <div class="col-6">
+                <span>국민연금</span>
+                <i
+                  class="bi bi-question-circle-fill"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="과세금액의 4.5%를 공제하며, 비과세금액이 있을 경우 <br>비과세액을 제외한 과세금액에서만 세액이 공제됩니다."
+                ></i>
+              </div>
+              <div class="col-6 d-flex justify-content-end">
+                <span id="국민연금">0</span>
+                <span>원</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-6">장기요양</div>
-            <div class="col-6 d-flex justify-content-end">
-              <span id="장기요양">0</span>
-              <span>원</span>
+            <div class="row">
+              <div class="col-6">
+                <span>건강보험</span>
+                <i
+                  class="bi bi-question-circle-fill"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="과세금액의 3.495%를 공제하며, 비과세금액이 있을 경우 <br>비과세액을 제외한 과세금액에서만 세액이 공제됩니다."
+                ></i>
+              </div>
+              <div class="col-6 d-flex justify-content-end">
+                <span id="건강보험">0</span>
+                <span>원</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-6">고용보험</div>
-            <div class="col-6 d-flex justify-content-end">
-              <span id="고용보험">0</span>
-              <span>원</span>
+            <div class="row">
+              <div class="col-6">
+                <span>장기요양</span>
+                <i
+                  class="bi bi-question-circle-fill"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="건강보험 금액의 12.27%를 공제합니다."
+                ></i>
+              </div>
+              <div class="col-6 d-flex justify-content-end">
+                <span id="장기요양">0</span>
+                <span>원</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-6">소득세</div>
-            <div class="col-6 d-flex justify-content-end">
-              <span id="소득세">0</span>
-              <span>원</span>
+            <div class="row">
+              <div class="col-6">
+                <span>고용보험</span>
+                <i
+                  class="bi bi-question-circle-fill"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="과세금액의 0.8%를 공제하며, 비과세금액이 있을 경우 <br>비과세액을 제외한 과세금액에서만 세액이 공제됩니다."
+                ></i>
+              </div>
+              <div class="col-6 d-flex justify-content-end">
+                <span id="고용보험">0</span>
+                <span>원</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-6">지방소득세</div>
-            <div class="col-6 d-flex justify-content-end">
-              <span id="지방소득세">0</span>
-              <span>원</span>
+            <div class="row">
+              <div class="col-6">
+                <span>소득세</span>
+                <i
+                  class="bi bi-question-circle-fill"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="월 소득과 부양가족수에 따라, <br>국세청의 근로소득 간이세액표 자료를 기준으로 <br>공제됩니다."
+                ></i>
+              </div>
+              <div class="col-6 d-flex justify-content-end">
+                <span id="소득세">0</span>
+                <span>원</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-6">공제액 합계</div>
-            <div class="col-6 d-flex justify-content-end">
-              <span id="deductions">0</span>
-              <span>원</span>
+            <div class="row">
+              <div class="col-6">
+                <span>지방소득세</span>
+                <i
+                  class="bi bi-question-circle-fill"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="소득세의 10%가 공제됩니다."
+                ></i>
+              </div>
+              <div class="col-6 d-flex justify-content-end">
+                <span id="지방소득세">0</span>
+                <span>원</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <span>공제액 합계</span>
+              </div>
+              <div class="col-6 d-flex justify-content-end">
+                <span id="deductions">0</span>
+                <span>원</span>
+              </div>
             </div>
           </div>
         </div>
