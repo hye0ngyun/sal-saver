@@ -3,14 +3,16 @@ function numberWithCommas(x) {
 }
 
 // 툴팁기능 활성화를 위해
-const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+const tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
 const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl)
-})
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
 
 $(() => {
   // 연봉/월급 입력시 값을 정규식으로 처리하여 숫자만 입력받고, 100의 자리마다 컴마 추가
-  $("#salary, #taxfree").on("input", (e) => {
+  $("#salary, #taxfree, .el_comma").on("input", (e) => {
     // 숫자 이외의 값이 들어오면 '' 빈 문자열로 대체
     const input = e.target.value.toString().replace(/\D/g, "");
     // 사용자가 입력한 숫자를 시각적으로 보기 좋게 100단위로 컴마 삽입
@@ -81,5 +83,51 @@ $(() => {
       .addClass("btn-secondary")
       .removeClass("btn-outline-primary");
     $(".sal-title").text("월급");
+  });
+
+  // 고정지출 내역
+  $(".bl_fixed_spendings button").on("click", () => {
+    let spendingName =
+      $(".bl_fixed_spendings input").first().val() === ""
+        ? "이름없음"
+        : $(".bl_fixed_spendings input").first().val();
+    let spendingValue = $(".bl_fixed_spendings input")
+      .last()
+      .val()
+      .replaceAll(",", "");
+    $(".bl_fixed_spendings_list").prepend(
+      `<div>${spendingName}: <span>${numberWithCommas(
+        spendingValue
+      )}</span>원</div>`
+    );
+    $(".bl_fixed_spendings_total").text(
+      numberWithCommas(
+        Number($(".bl_fixed_spendings_total").text().replaceAll(",", "")) +
+          Number(spendingValue)
+      )
+    );
+  });
+
+  // 소비지출 내역
+  $(".bl_variable_spendings button").on("click", () => {
+    let spendingName =
+      $(".bl_variable_spendings input").first().val() === ""
+        ? "이름없음"
+        : $(".bl_variable_spendings input").first().val();
+    let spendingValue = $(".bl_variable_spendings input")
+      .last()
+      .val()
+      .replaceAll(",", "");
+    $(".bl_variable_spendings_list").prepend(
+      `<div>${spendingName}: <span>${numberWithCommas(
+        spendingValue
+      )}</span>원</div>`
+    );
+    $(".bl_variable_spendings_total").text(
+      numberWithCommas(
+        Number($(".bl_variable_spendings_total").text().replaceAll(",", "")) +
+          Number(spendingValue)
+      )
+    );
   });
 });
