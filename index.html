@@ -67,9 +67,9 @@
     </div>
     <main class="container my-5">
       <!-- 연봉계산기 -->
-      <div class="row py-5 p-3 border">
+      <div class="row py-5 p-3 border g-5">
         <!-- 옵션 -->
-        <div class="col-lg-6 mb-3">
+        <form id="form" class="col-lg-6 mb-3">
           <div class="row mb-3">
             <div class="mb-2">필수입력</div>
             <div class="col-6 mb-2">
@@ -140,6 +140,7 @@
                   class="form-control col text-right"
                   id="salary"
                   placeholder="0"
+                  value="0"
                 />
                 <div class="col-1 d-flex align-items-center">원</div>
               </div>
@@ -194,7 +195,7 @@
             </div>
             <div class="col">
               <input
-                type="button"
+                type="submit"
                 class="btn btn-primary btn-lg btn-block w-full"
                 value="계산하기"
                 pys-onClick="calculate"
@@ -202,7 +203,7 @@
               />
             </div>
           </div>
-        </div>
+        </form>
         <!-- 결과 -->
         <div class="col-lg-6 mb-3">
           <div class="fw-bold mb-1">
